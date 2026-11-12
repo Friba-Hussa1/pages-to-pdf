@@ -1,38 +1,30 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pages to PDF Converter</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
 </head>
-
 <body>
   <main>
     <h1>Pages to PDF Converter</h1>
+    <p>Upload your Apple Pages document.</p>
 
-    <p>Upload your Apple Pages document
-       and convert it into a PDF.</p>
-
-    <form id="convertForm">
-      <label for="pagesFile">Select your file:</label>
-
+    <form id="converterForm">
       <input
         type="file"
         id="pagesFile"
         accept=".pages"
         required
       >
-
       <button type="submit">Convert to PDF</button>
     </form>
 
     <p id="status"></p>
   </main>
-</body>
 
+  <script src="script.js"></script>
+</body>
 </html>

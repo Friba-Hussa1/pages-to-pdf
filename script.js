@@ -1,5 +1,5 @@
 
-const form = document.getElementById("convertForm");
+const form = document.getElementById("converterForm");
 const fileInput = document.getElementById("pagesFile");
 const status = document.getElementById("status");
 
@@ -8,15 +8,15 @@ form.addEventListener("submit", async (event) => {
 
   const file = fileInput.files[0];
 
-  if (!file || !file.name.toLowerCase().endsWith(".pages")) {
-    status.textContent = "Please select a .pages file.";
+  if (!file) {
+    status.textContent = "Please select a Pages file.";
     return;
   }
 
+  status.textContent = "Converting, please wait...";
+
   const formData = new FormData();
   formData.append("file", file);
-
-  status.textContent = "Converting...";
 
   try {
     const response = await fetch("/convert", {
@@ -25,11 +25,11 @@ form.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      throw new Error("Conversion failed.");
+      throw new Error(await response.text());
     }
 
-    const pdf = await response.blob();
-    const url = URL.createObjectURL(pdf);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
 
     const link = document.createElement("a");
     link.href = url;
@@ -39,9 +39,9 @@ form.addEventListener("submit", async (event) => {
     link.click();
     link.remove();
 
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    status.textContent = "PDF converted successfully!";
+    URL.revokeObjectURL(url);
+    status.textContent = "Conversion successful!";
   } catch (error) {
-    status.textContent = error.message;
+    status.textContent = "Conversion failed: " + error.message;
   }
 });
